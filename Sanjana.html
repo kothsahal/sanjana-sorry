@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Butterfly 🦋</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+/* scenes */
+.scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+
+.active { display: flex; }
+
+/* glow text */
+.glow {
+    font-size: 2rem;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff4d6d; }
+    to { text-shadow: 0 0 30px #ff99ac; }
+}
+
+/* typing */
+#typing {
+    font-size: 1.4rem;
+    max-width: 500px;
+}
+
+/* buttons */
+.btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.yes { background: white; color: #ff4d6d; }
+.no { background: black; color: white; position: absolute; }
+
+/* hearts */
+.heart {
+    position: absolute;
+    color: pink;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); opacity:1; }
+    to { transform: translateY(-10vh); opacity:0; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Scene 1 -->
+<div class="scene active" id="scene1">
+    <h1 class="glow">Hey Sanjana 🦋</h1>
+    <p>From Sahal… ❤️</p>
+    <button class="btn yes" onclick="startStory()">Tap to start our story 🎶</button>
+</div>
+
+<!-- Scene 2 -->
+<div class="scene" id="scene2">
+    <p id="typing"></p>
+</div>
+
+<!-- Scene 3 -->
+<div class="scene" id="scene3">
+    <h2>Do you remember…? 🥺</h2>
+    <p>
+        Our first meet at the station 🚉❤️<br><br>
+        It felt like a movie scene… 🎬<br>
+        I even forgot your chocolate 🍫<br><br>
+        And when I came back…<br>
+        the train had already started moving 💔
+    </p>
+    <button class="btn yes" onclick="nextScene(4)">Continue…</button>
+</div>
+
+<!-- Scene 4 -->
+<div class="scene" id="scene4">
+    <p>
+        From poet paradise group… ✍️<br>
+        From BBA discussions…<br><br>
+        To late night talks… 🌙❤️<br><br>
+        You became my Butterfly 🦋
+    </p>
+    <button class="btn yes" onclick="nextScene(5)">Continue…</button>
+</div>
+
+<!-- Scene 5 -->
+<div class="scene" id="scene5">
+    <p>
+        And I messed up… 💔<br><br>
+        I didn’t reply that night…<br>
+        I thought I was keeping my promise…<br><br>
+        But truth is…<br>
+        I hurt you without knowing 😔
+    </p>
+    <button class="btn yes" onclick="nextScene(6)">Continue…</button>
+</div>
+
+<!-- Scene 6 -->
+<div class="scene" id="scene6">
+    <h1>I’m Really Sorry Sanjana 💔</h1>
+    <p>You mean everything to me… Sahal needs you 🥺❤️</p>
+    <button class="btn yes" onclick="nextScene(7)">One last thing…</button>
+</div>
+
+<!-- Scene 7 -->
+<div class="scene" id="scene7">
+    <h2>Will you forgive me? 🥺</h2>
+    <button class="btn yes" onclick="yesClick()">Yes ❤️</button>
+    <button class="btn no" id="noBtn">No 😒</button>
+</div>
+
+<!-- Scene 8 -->
+<div class="scene" id="scene8">
+    <h1 class="glow">Thank You My Butterfly 🦋❤️</h1>
+    <p>I promise I’ll never hurt you again…</p>
+</div>
+
+<!-- 🎵 FIXED MUSIC -->
+<audio id="music" loop>
+  <source src="sorry.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// start story + play music
+function startStory() {
+    const music = document.getElementById("music");
+    music.play();
+    nextScene(2);
+}
+
+// scene change
+function nextScene(num){
+    document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+    document.getElementById('scene'+num).classList.add('active');
+
+    if(num===2) startTyping();
+}
+
+// typing story
+const text = "We met through a simple group… ✍️\nBut it turned into something special ❤️\n\nFrom online chats…\nTo real life moments…\n\nYou became my peace… my happiness… my Butterfly 🦋";
+
+let i = 0;
+
+function startTyping(){
+    const el = document.getElementById("typing");
+    el.innerHTML = "";
+    i = 0;
+
+    function type(){
+        if(i < text.length){
+            el.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+            i++;
+            setTimeout(type, 50);
+        } else {
+            setTimeout(()=>nextScene(3),1500);
+        }
+    }
+    type();
+}
+
+// moving NO button 😂
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * window.innerWidth * 0.8;
+    const y = Math.random() * window.innerHeight * 0.8;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// yes click
+function yesClick(){
+    nextScene(8);
+}
+
+// hearts
+setInterval(()=>{
+    let heart = document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),6000);
+},200);
+
+</script>
+
+</body>
+</html>
