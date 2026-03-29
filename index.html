@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<!-- ✅ MOBILE FIX (MOST IMPORTANT) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>For My Butterfly 🦋</title>
 
 <style>
@@ -25,13 +29,14 @@ body {
     flex-direction: column;
     text-align: center;
     padding: 20px;
+    box-sizing: border-box; /* ✅ prevents overflow on mobile */
 }
 
 .active { display: flex; }
 
 /* glow text */
 .glow {
-    font-size: 2rem;
+    font-size: 6vw; /* ✅ responsive */
     animation: glow 2s infinite alternate;
 }
 
@@ -42,18 +47,23 @@ body {
 
 /* typing */
 #typing {
-    font-size: 1.4rem;
-    max-width: 500px;
+    font-size: 4.5vw; /* ✅ responsive */
+    max-width: 90%;
+}
+
+/* normal text */
+p, h2 {
+    font-size: 4.2vw; /* ✅ responsive */
 }
 
 /* buttons */
 .btn {
     margin-top: 20px;
-    padding: 12px 25px;
+    padding: 10px 20px;
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 4vw; /* ✅ responsive */
 }
 
 .yes { background: white; color: #ff4d6d; }
@@ -143,29 +153,23 @@ body {
     <p>I promise I’ll never hurt you again…</p>
 </div>
 
-<!-- 🎵 FIXED MUSIC -->
 <audio id="music" loop>
   <source src="sorry.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-
-// start story + play music
 function startStory() {
     const music = document.getElementById("music");
     music.play();
     nextScene(2);
 }
 
-// scene change
 function nextScene(num){
     document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
     document.getElementById('scene'+num).classList.add('active');
-
     if(num===2) startTyping();
 }
 
-// typing story
 const text = "We met through a simple group… ✍️\nBut it turned into something special ❤️\n\nFrom online chats…\nTo real life moments…\n\nYou became my peace… my happiness… my Butterfly 🦋";
 
 let i = 0;
@@ -187,7 +191,6 @@ function startTyping(){
     type();
 }
 
-// moving NO button 😂
 const noBtn = document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover", () => {
@@ -197,12 +200,10 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.top = y + "px";
 });
 
-// yes click
 function yesClick(){
     nextScene(8);
 }
 
-// hearts
 setInterval(()=>{
     let heart = document.createElement("div");
     heart.className="heart";
@@ -213,7 +214,6 @@ setInterval(()=>{
 
     setTimeout(()=>heart.remove(),6000);
 },200);
-
 </script>
 
 </body>
